@@ -19,6 +19,57 @@ Chart.defaults.borderColor = 'rgba(168,218,220,0.08)';
 Chart.defaults.font.family = "'Sora', sans-serif";
 Chart.defaults.font.size = 10;
 
+const map = L.map('map', {
+  center: [5.6037, -0.1870],
+  zoom: 11,
+  zoomControl: false
+});
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors',
+  maxZoom: 19
+}).addTo(map);
+
+const highDensityLayer = L.geoJSON({
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      properties: { name: 'High density zone' },
+      geometry: {
+        type: 'Polygon',
+        coordinates: [
+          [
+            [-0.22, 5.62],
+            [-0.14, 5.62],
+            [-0.14, 5.56],
+            [-0.22, 5.56],
+            [-0.22, 5.62]
+          ]
+        ]
+      }
+    }
+  ]
+}, {
+  style: {
+    color: '#2d8b8b',
+    weight: 2,
+    fillColor: 'rgba(45,139,139,0.2)',
+    fillOpacity: 0.45
+  },
+  onEachFeature(feature, layer) {
+    if (feature.properties && feature.properties.name) {
+      layer.bindPopup(feature.properties.name);
+    }
+  }
+}).addTo(map);
+
+L.marker([5.61, -0.18]).addTo(map).bindPopup('GIS data center').openPopup();
+
+L.control.layers(null, {
+  'High density zone': highDensityLayer
+}, { collapsed: false }).addTo(map);
+
 new Chart(document.getElementById('spark1'), {
   type: 'line',
   data: {

@@ -163,6 +163,17 @@ html, body {
   background: #0d1b2a;
 }
 
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
 .map-grid {
   position: absolute; inset: 0;
   background-image:
